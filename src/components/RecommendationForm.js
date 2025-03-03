@@ -6,7 +6,6 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const RecommendationContainer = styled.div`
-  padding: 20px;
   text-align: center;
 
   @media screen and (max-width: 500px){

@@ -45,9 +45,11 @@ export default Home;
 
 const CarouselContainer = styled.div`
   position: relative;
-  width: 100%;
+  
   height: 100vh; /* Adjust height as needed */
   overflow: hidden;
+  width: calc(100% + 40px);
+  margin-left: -20px;
 `;
 
 const CarouselImage = styled.img`

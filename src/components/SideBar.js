@@ -2,35 +2,42 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUniversity, faSignOutAlt, faLightbulb, faBars, faTimes, faHeart, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faUniversity,
+  faSignOutAlt,
+  faLightbulb,
+  faBars,
+  faTimes,
+  faHeart,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
-const Sidebar = ({ onLogout }) => {
+const Navbar = ({ onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     onLogout();
+    setMenuOpen(false); // Close menu on logout
     navigate("/");
   };
 
   const handleNavItemClick = () => {
-    if (window.innerWidth < 1025) {
+    if (window.innerWidth < 1024) {
       setMenuOpen(false);
     }
   };
 
   return (
-    <>
-      <MenuIcon onClick={() => setMenuOpen(!menuOpen)}>
-        <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
-      </MenuIcon>
-      <SidebarContainer menuOpen={menuOpen}>
-        <LogoContainer onClick={() => navigate("/home")}>
-          {/* <img src={appLogo} alt="logo" /> */}
-          <h2>College Events Recommendations</h2>
-        </LogoContainer>
-        <NavLinks>
+    <NavContainer>
+      <NavContent>
+        <Logo onClick={() => navigate("/home")}>College Events</Logo>
+        <MenuIcon onClick={() => setMenuOpen(!menuOpen)}>
+          <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+        </MenuIcon>
+        <NavLinks menuOpen={menuOpen}>
           <NavItem to="/home" location={location} onClick={handleNavItemClick}>
             <FontAwesomeIcon icon={faHome} /> Home
           </NavItem>
@@ -41,81 +48,71 @@ const Sidebar = ({ onLogout }) => {
             <FontAwesomeIcon icon={faLightbulb} /> Recommendations
           </NavItem>
           <NavItem to="/favorites" location={location} onClick={handleNavItemClick}>
-            <FontAwesomeIcon icon={ faHeart} />  Favorites
+            <FontAwesomeIcon icon={faHeart} /> Favorites
           </NavItem>
-          {/* <NavItem to="/ml" location={location} onClick={handleNavItemClick}>
-            <FontAwesomeIcon icon={ faGun } /> ML
-          </NavItem> */}
           <NavItem to="/registered" location={location} onClick={handleNavItemClick}>
             <FontAwesomeIcon icon={faCheckCircle} /> Registered Events
           </NavItem>
-        </NavLinks>
-        <LogoutButton onClick={handleLogout}>
+          <LogoutButton onClick={handleLogout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
           </LogoutButton>
-      </SidebarContainer>
-    </>
+        </NavLinks>
+      </NavContent>
+    </NavContainer>
   );
 };
 
-const SidebarContainer = styled.div`
+const NavContainer = styled.nav`
+  width: 100%;
+  background-color: rgb(33, 33, 33);
+  padding: 15px 20px;
+  color: white;
   position: fixed;
   top: 0;
   left: 0;
-  width: 18vw;
-  height: 100vh;
-  background-color:rgb(33, 33, 33) ;
-  color: white;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s ease-in-out;
-  z-index: 100;
-  
-  @media (max-width: 1024px) {
-    width: 65%;
-    max-width: 280px;
-    transform: ${({ menuOpen }) => (menuOpen ? "translateX(0)" : "translateX(-100%)")};
-    font-size: 14px;
-    padding-top: 50px;
-  }
+  z-index: 1000;
 `;
 
-const LogoContainer = styled.div`
-  border-bottom: 1px solid rgba(255, 255, 255, 0.41);
+const NavContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+`;
+
+const Logo = styled.h2`
   cursor: pointer;
-  margin-bottom: 30px;
-  img {
-    width: 280px;
-  }
-  h2{
-    text-align: center;
-  }
 `;
 
 const MenuIcon = styled.div`
-  position: fixed;
-  top: 15px;
-  left: 15px;
   font-size: 24px;
-  color: white;
   cursor: pointer;
-  z-index: 1001;
-  background: #191970;
-  padding: 10px;
-  border-radius: 5px;
-
-  @media (min-width: 1024px) {
-    display: none;
+  display: none;
+  margin-right: 40px;
+  @media (max-width: 1024px) {
+    display: block;
   }
 `;
 
 const NavLinks = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  gap: 20px;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    display: ${({ menuOpen }) => (menuOpen ? "flex" : "none")};
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 90px;
+    right: 0px;
+    width: 250px;
+    background: rgb(33, 33, 33);
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
 `;
 
 const NavItem = styled(Link)`
@@ -124,37 +121,28 @@ const NavItem = styled(Link)`
   font-size: 18px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-  background-color: ${({ to, location }) => (location.pathname === to ? "rgba(255, 255, 255, 0.2)" : "transparent")};
+  gap: 10px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    color: #f5a623;
   }
 `;
 
 const LogoutButton = styled.button`
-  background-color:rgb(231, 6, 29);
+  background-color: rgb(231, 6, 29);
   color: white;
   border: none;
-  padding: 12px 16px;
+  padding: 10px 16px;
   cursor: pointer;
   font-size: 18px;
   display: flex;
   align-items: center;
   gap: 10px;
   border-radius: 5px;
-  margin-top: 20px;
-  transition: background 0.3s ease;
-  position: absolute;
-  width: 80%;
-  bottom: 10px;
 
   &:hover {
     background-color: #c82333;
   }
 `;
 
-export default Sidebar;
+export default Navbar;
