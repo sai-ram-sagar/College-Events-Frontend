@@ -7,7 +7,7 @@ import { faHeart, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const FavoritesContainer = styled.div`
   padding: 25px;
-  h2{ 
+  h1{ 
     text-align: center;
   }
   @media screen and (max-width: 500px){
@@ -118,7 +118,7 @@ console.log(userId)
 
   return (
     <FavoritesContainer>
-      <h2>Your Favorites</h2>
+      <h1>Your Favorites</h1>
       {favorites.length > 0 ? (
         <FavoritesList>
           {favorites.map((event) => (
@@ -147,7 +147,7 @@ console.log(userId)
           ))}
         </FavoritesList>
       ) : (
-        <p>No favorites yet.</p>
+        <p style={{textAlign:"center"}}>No favorites yet.</p>
       )}
     </FavoritesContainer>
   );

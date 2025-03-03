@@ -38,19 +38,19 @@ const Navbar = ({ onLogout }) => {
           <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
         </MenuIcon>
         <NavLinks menuOpen={menuOpen}>
-          <NavItem to="/home" location={location} onClick={handleNavItemClick}>
+          <NavItem to="/home" location={location} onClick={handleNavItemClick} active={location.pathname === "/home"}>
             <FontAwesomeIcon icon={faHome} /> Home
           </NavItem>
-          <NavItem to="/events" location={location} onClick={handleNavItemClick}>
+          <NavItem to="/events" location={location} onClick={handleNavItemClick} active={location.pathname === "/events"}>
             <FontAwesomeIcon icon={faUniversity} /> All Events
           </NavItem>
-          <NavItem to="/recommend" location={location} onClick={handleNavItemClick}>
+          <NavItem to="/recommend" location={location} onClick={handleNavItemClick} active={location.pathname === "/recommend"}>
             <FontAwesomeIcon icon={faLightbulb} /> Recommendations
           </NavItem>
-          <NavItem to="/favorites" location={location} onClick={handleNavItemClick}>
+          <NavItem to="/favorites" location={location} onClick={handleNavItemClick} active={location.pathname === "/favorites"}>
             <FontAwesomeIcon icon={faHeart} /> Favorites
           </NavItem>
-          <NavItem to="/registered" location={location} onClick={handleNavItemClick}>
+          <NavItem to="/registered" location={location} onClick={handleNavItemClick} active={location.pathname === "/registered"}>
             <FontAwesomeIcon icon={faCheckCircle} /> Registered Events
           </NavItem>
           <LogoutButton onClick={handleLogout}>
@@ -83,6 +83,9 @@ const NavContent = styled.div`
 
 const Logo = styled.h2`
   cursor: pointer;
+  @media (min-width: 1025px) {
+    margin-left: -100px;
+  }
 `;
 
 const MenuIcon = styled.div`
@@ -97,8 +100,9 @@ const MenuIcon = styled.div`
 
 const NavLinks = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 40px;
   align-items: center;
+  margin-right: -100px;
 
   @media (max-width: 1024px) {
     display: ${({ menuOpen }) => (menuOpen ? "flex" : "none")};
@@ -107,7 +111,7 @@ const NavLinks = styled.div`
     position: absolute;
     top: 90px;
     right: 0px;
-    width: 250px;
+    width: 350px;
     background: rgb(33, 33, 33);
     padding: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -122,10 +126,10 @@ const NavItem = styled(Link)`
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 10px;
+  background-color: ${({ active }) => (active ? "#ffffff30" : "transparent")};
+  border-radius: 5px;
 
-  &:hover {
-    color: #f5a623;
-  }
 `;
 
 const LogoutButton = styled.button`

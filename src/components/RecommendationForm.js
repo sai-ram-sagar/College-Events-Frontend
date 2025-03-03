@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
+
 const RecommendationContainer = styled.div`
   text-align: center;
-
+  padding-top: 40px;
   @media screen and (max-width: 500px){
         padding-top: 40px;
   }
@@ -85,7 +86,7 @@ const Recommendation = () => {
         <EventCard key={event.id}>
           <EventImage src={event.bg_image} alt={event.event_name} />
           <EventTitle>{event.event_name}</EventTitle>
-          <EventDetails>{event.date} • {event.location} • {event.id}</EventDetails>
+          <EventDetails>{event.date} • {event.location} </EventDetails>
           <EventDetails>Entry: {event.entry_price === 0 ? 'Free' : `₹${event.entry_price}`}</EventDetails>
           <Link to={`/event/${event.id}`}>
             <MoreButton>
@@ -96,7 +97,7 @@ const Recommendation = () => {
       ))}
     </div>
   ) : (
-    <p>No recommendations available at the moment because your search history is empty.</p>
+    <p style={{textAlign:"center"}}>No recommendations available at the moment because your search history is empty.</p>
   )}
 </RecommendationContainer>
 
