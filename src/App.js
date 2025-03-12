@@ -12,6 +12,7 @@ import EventDetails from "./components/EventDetails";
 import AllEvents from "./components/AllEvents";
 import MLRecomend from "./components/MLRecomend";
 import RegisteredEvents from "./components/RegisteredEvents";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem("userId"));
@@ -48,6 +49,7 @@ const App = () => {
               <Route path="*" element={<Navigate to="/home" />} />
             </Routes>
           </MainContent>
+          <Footer/>
         </>
       ) : (
         <Routes>

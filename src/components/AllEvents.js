@@ -43,7 +43,7 @@ const SearchBarContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: 60%;
+  
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -81,6 +81,7 @@ const EventCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-width: 300px;
   &:hover {
     transform: translateY(-5px);
   }

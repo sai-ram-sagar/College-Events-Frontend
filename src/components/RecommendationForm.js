@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import Loader from './Loader';
 
 
 const RecommendationContainer = styled.div`
@@ -49,9 +50,7 @@ const MoreButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-
+  font-size: 14px;
   &:hover {
     background-color: #0056b3;
   }
@@ -60,8 +59,10 @@ const MoreButton = styled.button`
 const Recommendation = () => {
   const [recommendedEvents, setRecommendedEvents] = useState([]);
   const userId = localStorage.getItem("userId");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchRecommendations = async () => {
       if (!userId) return;
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -71,34 +72,42 @@ const Recommendation = () => {
         setRecommendedEvents(res.data.recommendedEvents); // Set recommended events from the API response
       } catch (error) {
         console.error('Error fetching recommendations:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchRecommendations();
+   
   }, [userId]);
 
   return (
 <RecommendationContainer>
   <h1>Recommended Events for you</h1>
-  {recommendedEvents && recommendedEvents.length > 0 ? (
-    <div>
-      {recommendedEvents.map((event) => (
-        <EventCard key={event.id}>
-          <EventImage src={event.bg_image} alt={event.event_name} />
-          <EventTitle>{event.event_name}</EventTitle>
-          <EventDetails>{event.date} • {event.location} </EventDetails>
-          <EventDetails>Entry: {event.entry_price === 0 ? 'Free' : `₹${event.entry_price}`}</EventDetails>
-          <Link to={`/event/${event.id}`}>
-            <MoreButton>
-              More <FontAwesomeIcon icon={faArrowRight} />
-            </MoreButton>
-          </Link>
-        </EventCard>
-      ))}
-    </div>
-  ) : (
-    <p style={{textAlign:"center"}}>No recommendations available at the moment because your search history is empty.</p>
-  )}
+        {loading ? <Loader /> : (
+            <>
+                {recommendedEvents && recommendedEvents.length > 0 ? (
+                  <div>
+                    {recommendedEvents.map((event) => (
+                      <EventCard key={event.id}>
+                        <EventImage src={event.bg_image} alt={event.event_name} />
+                        <EventTitle>{event.event_name}</EventTitle>
+                        <EventDetails>{event.date} • {event.location} </EventDetails>
+                        <EventDetails>Entry: {event.entry_price === 0 ? 'Free' : `₹${event.entry_price}`}</EventDetails>
+                        <Link to={`/event/${event.id}`}>
+                          <MoreButton style={{textDecoration:"none"}}>
+                            More <FontAwesomeIcon style={{marginLeft:"5px"}} icon={faArrowRight} />
+                          </MoreButton>
+                        </Link>
+                      </EventCard>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{textAlign:"center"}}>No recommendations available at the moment because your search history is empty.</p>
+                )}
+            </>
+        )}
+  
 </RecommendationContainer>
 
   );

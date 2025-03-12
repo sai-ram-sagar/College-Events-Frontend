@@ -4,6 +4,7 @@ import eventData from "../data/events.json";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Loader from "./Loader";
 
 const FavoritesContainer = styled.div`
   padding: 25px;
@@ -92,8 +93,10 @@ const MoreButton = styled.button`
 const RegisteredEvents = () => {
   const [favorites, setFavorites] = useState([]);
   const userId = localStorage.getItem("userId");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     if (!userId) return;
     const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -105,7 +108,8 @@ const RegisteredEvents = () => {
         ).filter(Boolean);
         setFavorites(favoriteEvents);
       })
-      .catch((err) => console.error("Error fetching favorites:", err));
+      .catch((err) => console.error("Error fetching favorites:", err))
+      .finally(() => setLoading(false));
   }, [userId]);
 
 //   const handleUnlike = async (eventId) => {
@@ -127,36 +131,41 @@ const RegisteredEvents = () => {
   return (
     <FavoritesContainer>
       <h1>Your Registrations</h1>
-      {favorites.length > 0 ? (
-        <FavoritesList>
-          {favorites.map((event) => (
-            <EventCard key={event.id}>
-              <EventImage src={event.bg_image} alt={event.event_name} />
-              <EventTitle>{event.event_name}</EventTitle>
-              <EventDetails>{event.date} • {event.location}</EventDetails>
-              <EventDetails>Entry: {event.entry_price === 0 ? "Free" : `₹${event.entry_price}`}</EventDetails>
-                <ButtonsContainer>
-                  {/* <LikeButton unlike onClick={() => handleUnlike(event.id)}>
-                    <FontAwesomeIcon icon={faHeart} />
-                  </LikeButton> */}
-                  <Link to={`/event/${event.id}`}>
-                    <MoreButton>
-                      More <FontAwesomeIcon icon={faArrowRight} />
-                    </MoreButton>
-                  </Link>
-                </ButtonsContainer>
-                {/* <EventActions>
-                  <Button unlike onClick={() => handleUnlike(event.id)}>Unlike</Button>
-                  <Link to={`/event/${event.id}`}>
-                    <Button>See More</Button>
-                  </Link>
-                </EventActions> */}
-            </EventCard>
-          ))}
-        </FavoritesList>
-      ) : (
-        <p style={{textAlign:"center"}}>No registerations.</p>
-      )}
+        {loading ? <Loader /> : (
+            <>
+              {favorites.length > 0 ? (
+                <FavoritesList>
+                  {favorites.map((event) => (
+                    <EventCard key={event.id}>
+                      <EventImage src={event.bg_image} alt={event.event_name} />
+                      <EventTitle>{event.event_name}</EventTitle>
+                      <EventDetails>{event.date} • {event.location}</EventDetails>
+                      <EventDetails>Entry: {event.entry_price === 0 ? "Free" : `₹${event.entry_price}`}</EventDetails>
+                        <ButtonsContainer>
+                          {/* <LikeButton unlike onClick={() => handleUnlike(event.id)}>
+                            <FontAwesomeIcon icon={faHeart} />
+                          </LikeButton> */}
+                          <Link to={`/event/${event.id}`}>
+                            <MoreButton>
+                              More <FontAwesomeIcon icon={faArrowRight} />
+                            </MoreButton>
+                          </Link>
+                        </ButtonsContainer>
+                        {/* <EventActions>
+                          <Button unlike onClick={() => handleUnlike(event.id)}>Unlike</Button>
+                          <Link to={`/event/${event.id}`}>
+                            <Button>See More</Button>
+                          </Link>
+                        </EventActions> */}
+                    </EventCard>
+                  ))}
+                </FavoritesList>
+              ) : (
+                <p style={{textAlign:"center"}}>No registerations.</p>
+              )}
+            </>
+        )}
+
     </FavoritesContainer>
   );
 };
