@@ -170,6 +170,7 @@ const EventDetails = () => {
             <form onSubmit={handleSubmit}>
               <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
               <input type="text" name="branch" placeholder="Branch" value={formData.branch} onChange={handleChange} required />
+              <input type="text" name="hallticket" placeholder="Hallticket Number"  />
               <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
               <input type="tel" name="mobile" placeholder="Mobile Number" value={formData.mobile} onChange={handleChange} required />
               <div >
