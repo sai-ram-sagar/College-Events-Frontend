@@ -1,6 +1,6 @@
 # 🎓 College Events - Frontend
 
-Frontend for the **College Events Recommendation App** — a full-stack (React + Node) application that recommends events to students based on interest, with features like login, event registration, and favorites.
+Frontend for the **College Events Recommendation WebApp** — a full-stack (React + Node) application that recommends events to students based on interest, with features like login, event registration, and favorites.
 
 🌐 **Live App**: [https://college-events-recommendations.onrender.com](https://college-events-recommendations.onrender.com)  
 🖥️ **Backend Repo**: [https://github.com/sai-ram-sagar/College-Events-Backend.git](https://github.com/sai-ram-sagar/College-Events-Backend.git)
@@ -24,7 +24,7 @@ Frontend for the **College Events Recommendation App** — a full-stack (React +
 - React.js  
 - Bootstrap CSS  
 - React Router  
-- Axios  
+- Axios & Fetch 
 
 **Backend**  
 - Node.js + Express.js  
